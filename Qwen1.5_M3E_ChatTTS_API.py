@@ -660,7 +660,7 @@ def generate_speech(
     input_text, voice, speed=1.0, prompt="", temperature=0.3, top_p=0.8, top_k=20
 ):
     # 生成随机说话者嵌入
-    p = os.path.join(DEFAULT_TTS_PATH, "/asset/spk_stat.pt")
+    p = os.path.join(DEFAULT_TTS_PATH, "asset/spk_stat.pt")
     std, mean = torch.load(p).chunk(2)
 
     torch.set_float32_matmul_precision("high")
@@ -815,5 +815,7 @@ if __name__ == "__main__":
 
     chattts = ChatTTS.Chat()
     chattts.load_models(source="local", local_path=DEFAULT_TTS_PATH)
+    torch.set_float32_matmul_precision("high")
+    chattts.infer(["初始化中"])
 
     uvicorn.run(app, host=args.server_name, port=args.server_port, workers=1)
