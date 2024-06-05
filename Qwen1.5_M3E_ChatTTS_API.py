@@ -36,7 +36,7 @@ from transformers.generation import GenerationConfig
 DEFAULT_TTS_PATH = "./ChatTTS"
 
 # 服务器Chat模型路径
-DEFAULT_LLM_PATH = "./Qwen1.5-0.5B-Chat"  # Qwen1.5 LLM
+DEFAULT_LLM_PATH = "./Qwen1.5-7B-Chat-AWQ"  # Qwen1.5 LLM
 
 # 服务器Embedding模型路径
 DEFAULT_EMBEDDING_PATH = "./m3e-large"
@@ -796,10 +796,11 @@ if __name__ == "__main__":
 
     model = AutoModelForCausalLM.from_pretrained(
         args.checkpoint_path,
-        device_map=device_map,
+        torch_dtype="auto",
+        device_map="auto",
         trust_remote_code=True,
         resume_download=True,
-        load_in_8bit=True,
+        #        load_in_8bit=True,
         # quantization_config=nf4_config
     ).eval()
 
